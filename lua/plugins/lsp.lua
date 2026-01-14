@@ -23,7 +23,6 @@ return {
     opts = {
       ensure_installed = {
         -- TypeScript/JavaScript
-        "tsgo", -- experimental typescript language server
         "angularls", -- angular-language-server
         -- Rust
         "rust_analyzer",
@@ -180,9 +179,6 @@ return {
             },
           },
         },
-        tsgo = {
-          settings = {},
-        },
         rust_analyzer = {
           settings = {
             ["rust-analyzer"] = {
@@ -268,7 +264,13 @@ return {
     end,
   },
 
-  -- tsgo for TypeScript (using mason-lspconfig above)
+  -- TypeScript tools
+  {
+    "pmizio/typescript-tools.nvim",
+    ft = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
+    dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+    opts = {},
+  },
 
   -- Java tools
   {
