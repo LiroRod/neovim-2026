@@ -80,7 +80,6 @@ return {
         "shfmt",
         "rustfmt",
         "nixpkgs-fmt",
-        "gofmt",
         "goimports",
         -- Linters
         "eslint_d",
