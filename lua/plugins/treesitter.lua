@@ -2,6 +2,7 @@ return {
   -- Treesitter
   {
     "nvim-treesitter/nvim-treesitter",
+    branch = "master",
     version = false,
     build = ":TSUpdate",
     event = { "VeryLazy" },
@@ -63,8 +64,6 @@ return {
         "scheme",
         "racket",
         -- Markup
-        "latex",
-        "org",
         -- Shell
         "fish",
         "nu",
@@ -95,6 +94,7 @@ return {
       },
     },
     config = function(_, opts)
+      require("nvim-treesitter.install").prefer_git = true
       local ok, configs = pcall(require, "nvim-treesitter.configs")
       if ok then
         configs.setup(opts)

@@ -23,35 +23,6 @@ return {
     },
   },
 
-  -- Tailwind colorizer for completion menu
-  {
-    "roobert/tailwindcss-colorizer-cmp.nvim",
-    config = function()
-      require("tailwindcss-colorizer-cmp").setup({
-        color_square_width = 2,
-      })
-
-      -- Integrate with nvim-cmp
-      local ok, cmp = pcall(require, "cmp")
-      if ok then
-        local format = require("tailwindcss-colorizer-cmp").formatter
-        local original_formatting = cmp.get_config().formatting or {}
-        local original_format = original_formatting.format
-
-        cmp.setup({
-          formatting = {
-            format = function(entry, item)
-              if original_format then
-                item = original_format(entry, item)
-              end
-              return format(entry, item)
-            end,
-          },
-        })
-      end
-    end,
-  },
-
   -- Enhanced TypeScript tools with React support
   {
     "pmizio/typescript-tools.nvim",
@@ -108,9 +79,10 @@ return {
   -- Emmet for fast HTML/JSX writing
   {
     "olrtg/nvim-emmet",
-    config = function()
-      vim.keymap.set({ "n", "v" }, "<leader>e", require("nvim-emmet").wrap_with_abbreviation, { desc = "Emmet wrap" })
-    end,
+    ft = { "html", "css", "javascript", "javascriptreact", "typescript", "typescriptreact", "vue", "svelte" },
+    keys = {
+      { "<leader>cw", function() require("nvim-emmet").wrap_with_abbreviation() end, mode = { "n", "v" }, desc = "Emmet Wrap" },
+    },
   },
 
   -- React code snippets and utilities
@@ -213,61 +185,6 @@ return {
         callback = function()
           lint.try_lint()
         end,
-      })
-    end,
-  },
-
-  -- Conform for formatting
-  {
-    "stevearc/conform.nvim",
-    event = { "BufWritePre" },
-    cmd = { "ConformInfo" },
-    keys = {
-      {
-        "<leader>cf",
-        function()
-          require("conform").format({ async = true, lsp_fallback = true })
-        end,
-        mode = "",
-        desc = "Format buffer",
-      },
-    },
-    opts = {
-      formatters_by_ft = {
-        javascript = { { "prettierd", "prettier" } },
-        javascriptreact = { { "prettierd", "prettier" } },
-        typescript = { { "prettierd", "prettier" } },
-        typescriptreact = { { "prettierd", "prettier" } },
-        css = { { "prettierd", "prettier" } },
-        scss = { { "prettierd", "prettier" } },
-        html = { { "prettierd", "prettier" } },
-        json = { { "prettierd", "prettier" } },
-        jsonc = { { "prettierd", "prettier" } },
-        yaml = { { "prettierd", "prettier" } },
-        markdown = { { "prettierd", "prettier" } },
-        graphql = { { "prettierd", "prettier" } },
-      },
-      format_on_save = function(bufnr)
-        -- Disable with a global or buffer-local variable
-        if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
-          return
-        end
-        return { timeout_ms = 500, lsp_fallback = true }
-      end,
-    },
-    init = function()
-      -- Command to toggle format on save
-      vim.api.nvim_create_user_command("FormatToggle", function(args)
-        if args.bang then
-          -- Toggle for current buffer
-          vim.b.disable_autoformat = not vim.b.disable_autoformat
-        else
-          -- Toggle globally
-          vim.g.disable_autoformat = not vim.g.disable_autoformat
-        end
-      end, {
-        desc = "Toggle autoformat on save",
-        bang = true,
       })
     end,
   },

@@ -3,12 +3,13 @@ return {
   priority = 1000,
   lazy = false,
   opts = {
-    bigfile = { enabled = false },
+    bigfile = { enabled = true },
     notifier = { enabled = false },
-    quickfile = { enabled = false },
+    quickfile = { enabled = true },
     scroll = { enabled = false },
     statuscolumn = { enabled = false },
     words = { enabled = false },
+    input = { enabled = true },
     dashboard = {
       enabled = true,
       preset = {
@@ -46,12 +47,12 @@ return {
         -- stylua: ignore
         ---@type snacks.dashboard.Item[]
         keys = {
-          { icon = "", key = "f", desc = "Find File", action = ":Telescope find_files" },
+          { icon = "", key = "f", desc = "Find File", action = ":lua require('fff').find_files()" },
           { icon = "", key = "n", desc = "New File", action = ":ene | startinsert" },
-          { icon = "", key = "g", desc = "Find Text", action = ":Telescope live_grep" },
+          { icon = "", key = "g", desc = "Find Text", action = ":lua require('fff').live_grep()" },
           { icon = "", key = "r", desc = "Recent Files", action = ":Telescope oldfiles" },
           { icon = "󰳿", key = "s", desc = "Restore Session", action = ":lua require('persistence').load()" },
-          { icon = "", key = "c", desc = "Config", action = ":lua require('telescope.builtin').find_files({cwd = vim.fn.stdpath('config')})" },
+          { icon = "", key = "c", desc = "Config", action = ":lua require('fff').change_indexing_directory(vim.fn.stdpath('config')) require('fff').find_files()" },
           { icon = "󰒲 ", key = "l", desc = "Lazy", action = ":Lazy" },
           { icon = "", key = "q", desc = "Quit", action = ":qa" },
         },

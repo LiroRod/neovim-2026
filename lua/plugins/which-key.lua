@@ -6,7 +6,9 @@ return {
     icons = {
       mappings = true,
     },
-    spec = {},
+    spec = {
+      { "<leader>o", group = "obsidian", icon = "" },
+    },
   },
   keys = {
     {

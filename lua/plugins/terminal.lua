@@ -6,7 +6,7 @@ return {
     version = "*",
     keys = {
       { "<leader>ft", "<cmd>ToggleTerm<cr>", desc = "Terminal (Root Dir)" },
-      { "<leader>fT", function() require("toggleterm.terminal").Terminal:new({ dir = vim.loop.cwd() }):toggle() end, desc = "Terminal (cwd)" },
+      { "<leader>fT", function() require("toggleterm.terminal").Terminal:new({ dir = vim.uv.cwd() }):toggle() end, desc = "Terminal (cwd)" },
       { "<C-/>", "<cmd>ToggleTerm<cr>", desc = "Terminal (Root Dir)", mode = { "n", "t" } },
       { "<C-_>", "<cmd>ToggleTerm<cr>", desc = "which_key_ignore", mode = { "n", "t" } },
     },
@@ -39,19 +39,5 @@ return {
         },
       },
     },
-  },
-
-  -- Floating terminal
-  {
-    "voldikss/vim-floaterm",
-    cmd = { "FloatermNew", "FloatermToggle" },
-    keys = {
-      { "<leader>tf", "<cmd>FloatermToggle<cr>", desc = "Float Terminal" },
-    },
-    init = function()
-      vim.g.floaterm_width = 0.8
-      vim.g.floaterm_height = 0.8
-      vim.g.floaterm_autoclose = 1
-    end,
   },
 }

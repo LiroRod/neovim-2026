@@ -20,12 +20,6 @@ return {
     },
   },
 
-  -- EditorConfig support
-  {
-    "editorconfig/editorconfig-vim",
-    event = "BufReadPre",
-  },
-
   -- Better folding with nvim-ufo
   {
     "kevinhwang91/nvim-ufo",
@@ -81,21 +75,22 @@ return {
         lua = { "stylua" },
         python = { "isort", "black" },
         rust = { "rustfmt" },
-        javascript = { "prettier" },
-        typescript = { "prettier" },
-        javascriptreact = { "prettier" },
-        typescriptreact = { "prettier" },
-        json = { "prettier" },
-        jsonc = { "prettier" },
-        yaml = { "prettier" },
-        markdown = { "prettier" },
-        html = { "prettier" },
-        css = { "prettier" },
-        scss = { "prettier" },
+        javascript = { "prettierd", "prettier", stop_after_first = true },
+        typescript = { "prettierd", "prettier", stop_after_first = true },
+        javascriptreact = { "prettierd", "prettier", stop_after_first = true },
+        typescriptreact = { "prettierd", "prettier", stop_after_first = true },
+        json = { "prettierd", "prettier", stop_after_first = true },
+        jsonc = { "prettierd", "prettier", stop_after_first = true },
+        yaml = { "prettierd", "prettier", stop_after_first = true },
+        markdown = { "prettierd", "prettier", stop_after_first = true },
+        html = { "prettierd", "prettier", stop_after_first = true },
+        css = { "prettierd", "prettier", stop_after_first = true },
+        scss = { "prettierd", "prettier", stop_after_first = true },
+        graphql = { "prettierd", "prettier", stop_after_first = true },
         sh = { "shfmt" },
         bash = { "shfmt" },
         zsh = { "shfmt" },
-        go = { "gofmt", "goimports" },
+        go = { "goimports" },
         nix = { "nixpkgs_fmt" },
         zig = { "zigfmt" },
       },
@@ -215,18 +210,6 @@ return {
     ft = { "markdown", "text", "org" },
     config = function()
       vim.g["pencil#wrapModeDefault"] = "soft"
-    end,
-  },
-
-  -- Smooth scrolling
-  {
-    "karb94/neoscroll.nvim",
-    event = "VeryLazy",
-    opts = {
-      mappings = {},
-    },
-    config = function(_, opts)
-      require("neoscroll").setup(opts)
     end,
   },
 

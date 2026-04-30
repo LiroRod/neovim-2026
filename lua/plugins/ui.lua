@@ -1,12 +1,12 @@
 return {
 	-- Colorscheme (Oxocarbon from nyoom.nvim)
 	{
-		"datsfilipe/vesper.nvim",
+		"Mofiqul/adwaita.nvim",
 		lazy = false,
 		priority = 1000,
 		config = function()
-			vim.opt.background = "dark"
-			vim.cmd.colorscheme("vesper")
+			vim.opt.background = "light"
+			vim.cmd.colorscheme("adwaita")
 		end,
 	},
 
@@ -62,7 +62,7 @@ return {
 		init = function()
 			-- Open neo-tree on startup if opening a directory
 			if vim.fn.argc(-1) == 1 then
-				local stat = vim.loop.fs_stat(vim.fn.argv(0))
+				local stat = vim.uv.fs_stat(vim.fn.argv(0))
 				if stat and stat.type == "directory" then
 					require("neo-tree")
 				end
@@ -173,13 +173,6 @@ return {
 		},
 		config = function(_, opts)
 			require("bufferline").setup(opts)
-			vim.api.nvim_create_autocmd("BufAdd", {
-				callback = function()
-					vim.schedule(function()
-						pcall(nvim_bufferline)
-					end)
-				end,
-			})
 		end,
 	},
 
@@ -394,7 +387,6 @@ return {
 				override = {
 					["vim.lsp.util.convert_input_to_markdown_lines"] = true,
 					["vim.lsp.util.stylize_markdown"] = true,
-					["cmp.entry.get_documentation"] = true,
 				},
 			},
 			routes = {
@@ -513,22 +505,6 @@ return {
 		},
 		init = function()
 			vim.notify = require("notify")
-		end,
-	},
-
-	-- Dressing for better UI inputs
-	{
-		"stevearc/dressing.nvim",
-		lazy = true,
-		init = function()
-			vim.ui.select = function(...)
-				require("lazy").load({ plugins = { "dressing.nvim" } })
-				return vim.ui.select(...)
-			end
-			vim.ui.input = function(...)
-				require("lazy").load({ plugins = { "dressing.nvim" } })
-				return vim.ui.input(...)
-			end
 		end,
 	},
 

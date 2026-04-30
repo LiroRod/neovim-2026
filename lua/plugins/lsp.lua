@@ -102,7 +102,7 @@ return {
 		dependencies = {
 			"mason.nvim",
 			"williamboman/mason-lspconfig.nvim",
-			"hrsh7th/cmp-nvim-lsp",
+			"saghen/blink.cmp",
 		},
 		config = function()
 			-- Setup diagnostics
@@ -159,11 +159,14 @@ return {
 
 			-- LSP server capabilities
 			local capabilities = vim.lsp.protocol.make_client_capabilities()
-			capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
+			capabilities = vim.tbl_deep_extend("force", capabilities, require("blink.cmp").get_lsp_capabilities())
 			capabilities.textDocument.foldingRange = {
 				dynamicRegistration = false,
 				lineFoldingOnly = true,
 			}
+			-- Avoid macOS EMFILE: disable LSP dynamic file watchers (libuv fs_event burns FDs)
+			capabilities.workspace = capabilities.workspace or {}
+			capabilities.workspace.didChangeWatchedFiles = { dynamicRegistration = false, relativePatternSupport = false }
 
 			-- Setup servers
 			local lspconfig = require("lspconfig")
@@ -172,13 +175,7 @@ return {
 					settings = {
 						Lua = {
 							runtime = { version = "LuaJIT" },
-							workspace = {
-								checkThirdParty = false,
-								library = {
-									"${3rd}/luv/library",
-									unpack(vim.api.nvim_get_runtime_file("", true)),
-								},
-							},
+							workspace = { checkThirdParty = false },
 							completion = { callSnippet = "Replace" },
 							diagnostics = { disable = { "missing-fields" } },
 						},
@@ -264,17 +261,22 @@ return {
 				},
 			}
 
+			-- Servers managed by dedicated plugins (skip in generic handler)
+			local skip_servers = { "rust_analyzer", "ts_ls", "jdtls" }
+
 			-- Setup handlers for automatic server configuration
-			local ok, mason_lspconfig = pcall(require, "mason-lspconfig")
-			if ok and mason_lspconfig.setup_handlers then
-				mason_lspconfig.setup_handlers({
+			require("mason-lspconfig").setup({
+				handlers = {
 					function(server_name)
+						if vim.tbl_contains(skip_servers, server_name) then
+							return
+						end
 						local server = servers[server_name] or {}
 						server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
 						lspconfig[server_name].setup(server)
 					end,
-				})
-			end
+				},
+			})
 		end,
 	},
 
@@ -321,5 +323,16 @@ return {
 	{
 		"clojure-vim/vim-jack-in",
 		ft = "clojure",
+	},
+
+	-- Better Lua LSP support for Neovim config/plugins
+	{
+		"folke/lazydev.nvim",
+		ft = "lua",
+		opts = {
+			library = {
+				{ path = "${3rd}/luv/library", words = { "vim%.uv" } },
+			},
+		},
 	},
 }

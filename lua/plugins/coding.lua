@@ -25,45 +25,8 @@ return {
       },
     },
     config = function(_, opts)
-      local npairs = require("nvim-autopairs")
-      npairs.setup(opts)
-
-      -- Integration with cmp
-      local cmp_autopairs = require("nvim-autopairs.completion.cmp")
-      local cmp = require("cmp")
-      cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
+      require("nvim-autopairs").setup(opts)
     end,
-  },
-
-  -- Better comments
-  {
-    "numToStr/Comment.nvim",
-    event = "VeryLazy",
-    dependencies = {
-      "JoosepAlviste/nvim-ts-context-commentstring",
-    },
-    opts = function()
-      return {
-        pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
-      }
-    end,
-    keys = {
-      { "gcc", mode = "n", desc = "Comment toggle current line" },
-      { "gc", mode = { "n", "o" }, desc = "Comment toggle linewise" },
-      { "gc", mode = "x", desc = "Comment toggle linewise (visual)" },
-      { "gbc", mode = "n", desc = "Comment toggle current block" },
-      { "gb", mode = { "n", "o" }, desc = "Comment toggle blockwise" },
-      { "gb", mode = "x", desc = "Comment toggle blockwise (visual)" },
-    },
-  },
-
-  -- TS context commentstring
-  {
-    "JoosepAlviste/nvim-ts-context-commentstring",
-    lazy = true,
-    opts = {
-      enable_autocmd = false,
-    },
   },
 
   -- Better text objects
