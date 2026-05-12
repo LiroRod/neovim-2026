@@ -1,12 +1,28 @@
 return {
 	-- Colorscheme (Oxocarbon from nyoom.nvim)
 	{
-		"Mofiqul/adwaita.nvim",
+		"nyoom-engineering/oxocarbon.nvim",
 		lazy = false,
 		priority = 1000,
 		config = function()
-			vim.opt.background = "light"
-			vim.cmd.colorscheme("adwaita")
+			vim.opt.background = "dark"
+			vim.cmd.colorscheme("oxocarbon")
+
+			local groups = {
+				"Normal",
+				"NormalNC",
+				"NormalFloat",
+				"FloatBorder",
+				"SignColumn",
+				"LineNr",
+				"EndOfBuffer",
+				"NeoTreeNormal",
+				"NeoTreeNormalNC",
+				"NeoTreeEndOfBuffer",
+			}
+			for _, group in ipairs(groups) do
+				vim.api.nvim_set_hl(0, group, { bg = "none" })
+			end
 		end,
 	},
 
