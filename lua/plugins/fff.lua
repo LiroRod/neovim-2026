@@ -7,13 +7,17 @@ return {
   opts = {},
   keys = {
     {
-      "<leader><space>",
-      function() require("fff").find_files() end,
+      "<leader>ff",
+      function()
+        require("fff").find_files()
+      end,
       desc = "Find Files (fff)",
     },
     {
       "<leader>/",
-      function() require("fff").live_grep() end,
+      function()
+        require("fff").live_grep()
+      end,
       desc = "Live Grep (fff)",
     },
     {
@@ -25,7 +29,9 @@ return {
     },
     {
       "<leader>sw",
-      function() require("fff").live_grep({ query = vim.fn.expand("<cword>") }) end,
+      function()
+        require("fff").live_grep({ query = vim.fn.expand("<cword>") })
+      end,
       desc = "Search Word Under Cursor (fff)",
     },
   },
