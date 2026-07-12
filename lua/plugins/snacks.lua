@@ -3,6 +3,14 @@ return {
   priority = 1000,
   lazy = false,
   opts = {
+    picker = {
+      sources = {
+        explorer = {
+          hidden = true,
+          ignored = true,
+        },
+      },
+    },
     bigfile = { enabled = true },
     notifier = { enabled = false },
     quickfile = { enabled = true },
